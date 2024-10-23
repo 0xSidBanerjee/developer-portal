@@ -1,0 +1,35 @@
+on:
+  push:
+    branches:
+      - ci
+
+jobs:
+  lint_and_build:
+    name: Lint and Build
+    runs-on: frontend-runner
+
+    steps:
+      - name: Disable cert
+        run: git config --global http.sslVerify "false"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Install docker
+        run: curl -fsSL https://get.docker.com | sh
+
+      - name: Login to Gitea container registry
+        run: docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }} https://billedgedev.rssoftware.co.in
+
+      - name: Build image
+        run: docker image build -t billedgedev.rssoftware.co.in/billatedge/frontend-app:${{ env.GITHUB_SHA }} .
+
+      - name: Push image
+        run: docker image push billedgedev.rssoftware.co.in/billatedge/frontend-app:${{ env.GITHUB_SHA }}
+

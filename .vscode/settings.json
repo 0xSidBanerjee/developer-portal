@@ -1,0 +1,16 @@
+{
+    // settings for tailwind css in vscode start
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    // settings for tailwind css in vscode end
+    "editor.tabSize": 2,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.format.semicolons": "remove",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    }
+}
